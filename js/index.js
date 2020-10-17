@@ -25,26 +25,56 @@
 //     console.log(e);
 // });
 
-function testPromise(pay,seconds){
-    return new Promise((ok,ng) => {
-        setTimeout(()=>{
-            if (pay > 100){
-                let change = pay - 100;
-                console.log(`${seconds}秒、お釣りは${change}です。`);
-                ok(change);
-            }
-            ng('お金がありません。恵んでください。');
-        },1000 * seconds)
+// function testPromise(pay,seconds){
+//     return new Promise((ok,ng) => {
+//         setTimeout(()=>{
+//             if (pay > 100){
+//                 let change = pay - 100;
+//                 console.log(`${seconds}秒、お釣りは${change}です。`);
+//                 ok(change);
+//             }
+//             ng('お金がありません。恵んでください。');
+//         },1000 * seconds)
 
-    });
-}
-console.log(1);
-testPromise(300,2)
-.then(change1=>testPromise(change1,3))
-.then(change2=>testPromise(change2,2))
-.catch(e=>console.log(e)); 
-console.log(3);
+//     });
+// }
+// console.log(1);
+// testPromise(300,2)
+// .then(change1=>testPromise(change1,3))
+// .then(change2=>testPromise(change2,2))
+// .catch(e=>console.log(e)); 
+// console.log(3);
 
 // console.log(testPromise3(200));
 // console.log(testPromise3(80).catch( e  =>{console.log(e)}));
 
+
+// function test1(){
+//     return '関数１';
+// }
+
+// async function aTest1(){
+//     return '非同期関数１';
+// }
+
+// console.log(test1());
+// console.log(aTest1().then(console.log(value)));
+
+function waiting(seconds){
+    return new Promise(ok => {
+    setTimeout(()=>{
+        ok();
+    },1000 * seconds);
+    })
+}
+
+async function aTest2(){
+    console.log(1);
+    await waiting(2);
+    console.log(3);    
+    await waiting(2);
+    console.log(5);    
+}
+
+
+aTest2();
