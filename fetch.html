@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fetch </title>
+    <style>
+        .w300{
+            width:300px;
+        }
+    </style>
 </head>
 <body>
+    <div id="image"></div>
     <script>
         const url = "https://dog.ceo/api/breeds/image/random";
         const options = {
@@ -17,12 +23,33 @@
         //APIがJSONで取得できるなら response.json()でパースする
         const fetchTest2 = fetch(url,options)
         .then( response => response.json() );
-        console.log(fetchTest2);
 
+        //データの取得をまってから処理をする
+        //Promise、async/await
+        function fetchDogImage(url,options){
+            return fetch(url,options)
+            .then(response => {
+                console.log(response.ok);
+                console.log(response.status);
+                if(response.ok){
+                    return response.json();
+                }
+                throw new Error('エラーです');
+            }).catch(e => console.log(e.message));
+        }
 
+        async function fetchImage(url,options){
+            const response = await fetchDogImage(url,options);
+            console.log(response.message);
 
+            const imageDiv = document.getElementById('image');
+            const imageElement = document.createElement('img');
+            imageElement.src = response.message;
+            imageDiv.appendChild(imageElement); 
+        }
 
-    </script>
-    
+        fetchImage(url,options);
+
+    </script>    
 </body>
 </html>
